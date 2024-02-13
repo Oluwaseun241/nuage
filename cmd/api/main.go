@@ -14,7 +14,7 @@ func main() {
 
 	e := echo.New()
 	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Yooo")
+		return c.JSON(http.StatusOK, "Yooo")
 	})
 	e.Logger.Fatal(e.Start(":3000"))
 }
