@@ -17,6 +17,14 @@ type SQLiteUserRepo struct {
 	db *bun.DB
 }
 
+func NewSQLiteUserRepo() (*SQLiteUserRepo, error) {
+	db, err := InitDB()
+	if err != nil {
+		return nil, err
+	}
+	return &SQLiteUserRepo{db: db}, nil
+}
+
 func InitDB() (*bun.DB, error) {
 	sqlite, err := sql.Open(sqliteshim.ShimName, "data/sqlite.db")
 	if err != nil {
