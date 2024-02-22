@@ -3,6 +3,7 @@ module nuage
 go 1.20
 
 require (
+	github.com/google/uuid v1.5.0
 	github.com/labstack/echo/v4 v4.11.4
 	github.com/uptrace/bun v1.1.17
 	github.com/uptrace/bun/dialect/sqlitedialect v1.1.17
@@ -13,7 +14,6 @@ require (
 require (
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/fatih/color v1.16.0 // indirect
-	github.com/google/uuid v1.5.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
 	github.com/labstack/gommon v0.4.2 // indirect
