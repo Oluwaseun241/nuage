@@ -1,26 +1,15 @@
 package main
 
 import (
-	"net/http"
-
-	conn "nuage/internal/db"
-
-	"github.com/labstack/echo/v4"
+	"fmt"
+	"nuage/internal/server"
 )
 
 func main() {
-	conn.InitDB()
-	//mustNot(err)
+	server := server.NewServer()
 
-	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, "Yooo")
-	})
-	e.Logger.Fatal(e.Start(":3000"))
-}
-
-func mustNot(err error) {
+	err := server.ListenAndServe()
 	if err != nil {
-		panic(err)
+		panic(fmt.Sprintf("cannot start server: %s", err))
 	}
 }
