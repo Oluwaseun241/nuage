@@ -2,7 +2,7 @@ package repositories
 
 import (
 	"errors"
-	"nuage/internal/entity"
+	"nuage/internal/entities"
 
 	"github.com/google/uuid"
 )
@@ -13,15 +13,16 @@ var (
 )
 
 type InMemoryUserRepository struct {
-	users []*entity.User
+	users []*entities.User
 }
 
 type UserRepository interface {
-	CreateUser(email, password, fullName string) (*entity.User, error)
-	GetUserID(id uuid.UUID) (*entity.User, error)
+	CreateUser(email, password, fullName string) (*entities.User, error)
+	UpdateUser()
+	GetUserID(id uuid.UUID) (*entities.User, error)
 }
 
-func (repo *InMemoryUserRepository) CreateUser(email, password, fullName string) (*entity.User, error) {
+func (repo *InMemoryUserRepository) CreateUser(email, password, fullName string) (*entities.User, error) {
 	// Check if email already exists
 	for _, user := range repo.users {
 		if user.Email == email {
@@ -30,7 +31,7 @@ func (repo *InMemoryUserRepository) CreateUser(email, password, fullName string)
 	}
 
 	// Create new user
-	newUser := &entity.User{
+	newUser := &entities.User{
 		ID:       uuid.New(),
 		Email:    email,
 		Password: password,
@@ -40,8 +41,8 @@ func (repo *InMemoryUserRepository) CreateUser(email, password, fullName string)
 	return newUser, nil
 }
 
-// Get user bu id
-func (repo *InMemoryUserRepository) GetUserID(id uuid.UUID) (*entity.User, error) {
+// Get user by id
+func (repo *InMemoryUserRepository) GetUserID(id uuid.UUID) (*entities.User, error) {
 	for _, user := range repo.users {
 		if user.ID == id {
 			return user, nil

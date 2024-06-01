@@ -2,19 +2,19 @@ package repositories
 
 import (
 	"errors"
-	"nuage/internal/entity"
+	"nuage/internal/entities"
 )
 
 type InMemoryFileRepository struct {
-	files []*entity.File
+	files []*entities.File
 }
 
 type FileRepository interface {
-	UploadFile(user *entity.User, name string, content []byte) (*entity.File, error)
-	DownloadFile(user *entity.User, filename string) ([]byte, error)
+	UploadFile(user *entities.User, name string, content []byte) (*entities.File, error)
+	DownloadFile(user *entities.User, filename string) ([]byte, error)
 }
 
-func (repo *InMemoryFileRepository) UploadFile(user *entity.User, name string, content []byte) (*entity.File, error) {
+func (repo *InMemoryFileRepository) UploadFile(user *entities.User, name string, content []byte) (*entities.File, error) {
 	// Check user quota and file size
 	if len(user.Email) == 0 || len(content) == 0 {
 		return nil, errors.New("invalid user or empty content")
@@ -24,7 +24,7 @@ func (repo *InMemoryFileRepository) UploadFile(user *entity.User, name string, c
 	}
 
 	// Create new file
-	newFile := &entity.File{
+	newFile := &entities.File{
 		Name:     name,
 		Size:     int64(len(content)),
 		Owner:    user,

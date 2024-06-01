@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"nuage/internal/entity"
+	"nuage/internal/entities"
 	"testing"
 
 	"github.com/google/uuid"
@@ -11,7 +11,7 @@ import (
 // Creates a new user with unique email
 func TestCreateUser(t *testing.T) {
 	repo := &InMemoryUserRepository{
-		users: []*entity.User{
+		users: []*entities.User{
 			{
 				ID:       uuid.New(),
 				Email:    "existing@example.com",
@@ -32,4 +32,19 @@ func TestCreateUser(t *testing.T) {
 	assert.Equal(t, email, user.Email)
 	assert.Equal(t, password, user.Password)
 	assert.Equal(t, fullName, user.FullName)
+}
+
+func TestGetUserID(t *testing.T) {
+	repo := &InMemoryUserRepository{}
+	user := &entities.User{
+		ID:       uuid.New(),
+		Email:    "test@example.com",
+		Password: "password",
+		FullName: "Test User",
+	}
+	repo.users = append(repo.users, user)
+
+	retrievedUser, err := repo.GetUserID(user.ID)
+	assert.NoError(t, err)
+	assert.Equal(t, user, retrievedUser)
 }
