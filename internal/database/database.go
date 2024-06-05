@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"os"
+	"nuage/config"
 	"strconv"
 	"time"
 
@@ -29,7 +29,7 @@ type service struct {
 }
 
 var (
-	dburl      = os.Getenv("DB_URL")
+	dburl      = config.Env.DbUrl
 	dbInstance *service
 )
 
