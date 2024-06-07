@@ -20,6 +20,6 @@ func initConfig() Config {
 	return Config{
 		DbUrl:  os.Getenv("DB_URL"),
 		Port:   os.Getenv("PORT"),
-		AppEnv: os.Getenv(""),
+		AppEnv: os.Getenv("APP_ENV"),
 	}
 }
