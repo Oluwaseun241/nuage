@@ -1,6 +1,6 @@
 # ☁️Nuage
 
-`nuage` is cloud backup implementation
+`nuage` is cloud backup implementation using Domain Driven Design
 
 ## Features
 
