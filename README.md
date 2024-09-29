@@ -2,5 +2,7 @@
 
 `nuage` is cloud backup implementation
 
-<!-- ## Features -->
-<!-- -[x] User -->
+## Features
+
+- [x] Create User
+- [x] Create File/Folder

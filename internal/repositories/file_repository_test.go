@@ -23,4 +23,12 @@ func TestUploadFile(t *testing.T) {
 	assert.Equal(t, content, file.Contents)
 }
 
-func TestDownloadFile()
+func TestDownloadFile(t *testing.T) {
+	repo := &InMemoryFileRepository{}
+	user := &entities.User{Email: "test@example.com"}
+	content := []byte("This is a test file content")
+	name := "testfile.txt"
+	file, err := repo.DownloadFile(user, name)
+	assert.NoError(t, err)
+	assert.Equal(t, content, file)
+}

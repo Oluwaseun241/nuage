@@ -5,6 +5,10 @@ import (
 	"nuage/internal/entities"
 )
 
+var (
+	ErrFileNotFound = errors.New("file not found")
+)
+
 type InMemoryFileRepository struct {
 	files []*entities.File
 }
@@ -34,6 +38,12 @@ func (repo *InMemoryFileRepository) UploadFile(user *entities.User, name string,
 	return newFile, nil
 }
 
-func (repo *InMemoryFileRepository) DownloadFile(user *entities.User, filename string) []byte {
-	return nil
+func (repo *InMemoryFileRepository) DownloadFile(user *entities.User, filename string) ([]byte, error) {
+	for _, file := range repo.files {
+		if user == file.Owner && filename == file.Name {
+			return file.Contents, nil
+		}
+		return nil, ErrFileNotFound
+	}
+	return nil, ErrUserNotFound
 }
