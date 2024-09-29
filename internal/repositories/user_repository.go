@@ -18,7 +18,7 @@ type InMemoryUserRepository struct {
 
 type UserRepository interface {
 	CreateUser(email, password, fullName string) (*entities.User, error)
-	UpdateUser()
+	UpdateUser(id uuid.UUID, fullname string) (*entities.User, error)
 	GetUserID(id uuid.UUID) (*entities.User, error)
 }
 
@@ -39,6 +39,16 @@ func (repo *InMemoryUserRepository) CreateUser(email, password, fullName string)
 	}
 	repo.users = append(repo.users, newUser)
 	return newUser, nil
+}
+
+func (repo *InMemoryUserRepository) UpdateUser(id uuid.UUID, fullname string) (*entities.User, error) {
+	for _, user := range repo.users {
+		if user.ID == id {
+			user.FullName = fullname
+			return user, nil
+		}
+	}
+	return nil, ErrUserNotFound
 }
 
 // Get user by id

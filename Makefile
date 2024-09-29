@@ -1,5 +1,3 @@
-# Simple Makefile for a Go project
-
 # Build the application
 all: build
 
@@ -15,7 +13,7 @@ run:
 # Test the application
 test:
 	@echo "Testing..."
-	@go test ./tests -v
+	@go test ./... -v
 
 # Clean the binary
 clean:

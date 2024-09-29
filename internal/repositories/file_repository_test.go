@@ -22,3 +22,5 @@ func TestUploadFile(t *testing.T) {
 	assert.Equal(t, user, file.Owner)
 	assert.Equal(t, content, file.Contents)
 }
+
+func TestDownloadFile()

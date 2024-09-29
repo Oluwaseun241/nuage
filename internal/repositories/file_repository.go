@@ -34,6 +34,6 @@ func (repo *InMemoryFileRepository) UploadFile(user *entities.User, name string,
 	return newFile, nil
 }
 
-func (repo *InMemoryFileRepository) DownloadFile(user *entities.User, filname string) []byte {
+func (repo *InMemoryFileRepository) DownloadFile(user *entities.User, filename string) []byte {
 	return nil
 }

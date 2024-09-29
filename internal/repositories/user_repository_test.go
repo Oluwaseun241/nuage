@@ -34,6 +34,23 @@ func TestCreateUser(t *testing.T) {
 	assert.Equal(t, fullName, user.FullName)
 }
 
+func TestUpdateUser(t *testing.T) {
+	repo := &InMemoryUserRepository{}
+	user := &entities.User{
+		ID:       uuid.New(),
+		Email:    "test@example.com",
+		Password: "password",
+		FullName: "Test User",
+	}
+
+	repo.users = append(repo.users, user)
+
+	newFullName := "Demo User"
+	updateUser, err := repo.UpdateUser(user.ID, newFullName)
+	assert.NoError(t, err)
+	assert.Equal(t, newFullName, updateUser.FullName)
+}
+
 func TestGetUserID(t *testing.T) {
 	repo := &InMemoryUserRepository{}
 	user := &entities.User{
