@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestUploadFile(t *testing.T) {
+func TestUploadAndDownloadFile(t *testing.T) {
 	repo := &InMemoryFileRepository{}
 	user := &entities.User{Email: "test@example.com"}
 	content := []byte("This is a test file content")
@@ -21,14 +21,9 @@ func TestUploadFile(t *testing.T) {
 	assert.Equal(t, int64(len(content)), file.Size)
 	assert.Equal(t, user, file.Owner)
 	assert.Equal(t, content, file.Contents)
-}
 
-func TestDownloadFile(t *testing.T) {
-	repo := &InMemoryFileRepository{}
-	user := &entities.User{Email: "test@example.com"}
-	content := []byte("This is a test file content")
-	name := "testfile.txt"
-	file, err := repo.DownloadFile(user, name)
+	// Test Download File
+	download, err := repo.DownloadFile(user, "testfile.txt")
 	assert.NoError(t, err)
-	assert.Equal(t, content, file)
+	assert.Equal(t, content, download)
 }

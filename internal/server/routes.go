@@ -12,7 +12,7 @@ func (s *Server) RegisterRoutes() http.Handler {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	e.GET("/", s.HelloWorldHandler)
+	e.GET("/", s.createUser)
 
 	e.GET("/health", s.healthHandler)
 

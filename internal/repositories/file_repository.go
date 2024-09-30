@@ -29,6 +29,7 @@ func (repo *InMemoryFileRepository) UploadFile(user *entities.User, name string,
 
 	// Create new file
 	newFile := &entities.File{
+		ID:       1,
 		Name:     name,
 		Size:     int64(len(content)),
 		Owner:    user,
