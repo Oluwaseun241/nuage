@@ -5,13 +5,17 @@ import (
 	"nuage/internal/entities"
 )
 
+var (
+	ErrFolderNotFound = errors.New("folder not found")
+)
+
 type InMemoryFolderRepository struct {
 	folders []*entities.Folder
 }
 
 type FolderRepositories interface {
 	CreateFolder(user *entities.User, name string) (*entities.Folder, error)
-	AddFileToFolder(user *entities.User, file *entities.File, fileId int) error
+	AddFileToFolder(user *entities.User, file *entities.File, folderId int) (*entities.Folder, error)
 	RemoveFileFromFolder(user *entities.User, fileId int) error
 	DeleteFolder(user *entities.User, folderId int) error
 }
@@ -28,4 +32,14 @@ func (repo *InMemoryFolderRepository) CreateFolder(user *entities.User, name str
 	}
 	repo.folders = append(repo.folders, newFolder)
 	return newFolder, nil
+}
+
+func (repo *InMemoryFolderRepository) AddFileToFolder(user *entities.User, file *entities.Folder, folderId int) (*entities.Folder, error) {
+	for _, folder := range repo.folders {
+		if folderId == folder.ID {
+			folder.Files = file.Files
+			return folder, nil
+		}
+	}
+	return nil, ErrFolderNotFound
 }
