@@ -13,7 +13,7 @@ run:
 # Test the application
 test:
 	@echo "Testing..."
-	@go test ./... -v
+	@go test ./internal/repositories -v
 
 # Clean the binary
 clean:

@@ -17,7 +17,7 @@ type InMemoryFolderRepository struct {
 type FolderRepositories interface {
 	CreateFolder(user *entities.User, name string) (*entities.Folder, error)
 	AddFileToFolder(user *entities.User, file *entities.File, folderId int) (*entities.Folder, error)
-	RemoveFileFromFolder(user *entities.User, fileId int) error
+	RemoveFileFromFolder(user *entities.User, folderId int, fileId int) (*entities.Folder, error)
 	DeleteFolder(user *entities.User, folderId int) error
 }
 
@@ -46,4 +46,37 @@ func (repo *InMemoryFolderRepository) AddFileToFolder(user *entities.User, file 
 		}
 	}
 	return nil, ErrFolderNotFound
+}
+
+func (repo *InMemoryFolderRepository) RemoveFileFromFolder(user *entities.User, folderId int, fileId int) (*entities.Folder, error) {
+	for _, folder := range repo.folders {
+		if folderId == folder.ID {
+			if folder.Owner.ID != user.ID {
+				return nil, ErrUserNotAllowed
+			}
+
+			for i, file := range folder.Files {
+				if fileId == file.ID {
+					// remove file
+					folder.Files = append(folder.Files[:i], folder.Files[i+1:]...)
+					return folder, nil
+				}
+			}
+			return nil, ErrFileNotFound
+		}
+	}
+	return nil, ErrFolderNotFound
+}
+
+func (repo *InMemoryFolderRepository) DeletFolder(user *entities.User, folderId int) error {
+	for i, folder := range repo.folders {
+		if folderId == folder.ID {
+			if folder.Owner.ID != user.ID {
+				return ErrUserNotAllowed
+			}
+			repo.folders = append(repo.folders[:i], repo.folders[i+1:]...)
+			return nil
+		}
+	}
+	return ErrFolderNotFound
 }
