@@ -14,6 +14,12 @@ func (s *Server) createUser(c echo.Context) error {
 	return c.JSON(http.StatusOK, resp)
 }
 
+// upload and dwonload file
+// create folder
+// add file to folder
+// remove file from folder
+// delete folder
+
 func (s *Server) healthHandler(c echo.Context) error {
 	return c.JSON(http.StatusOK, s.db.Health())
 }
