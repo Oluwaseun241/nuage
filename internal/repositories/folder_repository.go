@@ -7,6 +7,7 @@ import (
 
 var (
 	ErrFolderNotFound = errors.New("folder not found")
+	ErrUserNotAllowed = errors.New("user does not have permission to modify this folder")
 )
 
 type InMemoryFolderRepository struct {
@@ -34,10 +35,13 @@ func (repo *InMemoryFolderRepository) CreateFolder(user *entities.User, name str
 	return newFolder, nil
 }
 
-func (repo *InMemoryFolderRepository) AddFileToFolder(user *entities.User, file *entities.Folder, folderId int) (*entities.Folder, error) {
+func (repo *InMemoryFolderRepository) AddFileToFolder(user *entities.User, file *entities.File, folderId int) (*entities.Folder, error) {
 	for _, folder := range repo.folders {
 		if folderId == folder.ID {
-			folder.Files = file.Files
+			if folder.Owner.ID != user.ID {
+				return nil, ErrUserNotAllowed
+			}
+			folder.Files = append(folder.Files, file)
 			return folder, nil
 		}
 	}
