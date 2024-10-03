@@ -6,4 +6,6 @@
 
 - [x] Create User
 - [x] Create File/Folder
-- [] Add File to Folder
+- [x] Add File to Folder
+- [x] Remove File from Folder
+- [x] Delete File/Folder
