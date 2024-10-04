@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"nuage/internal/server"
+	"nuage/internal/http"
 )
 
 func main() {
-	server := server.NewServer()
+	server := http.NewServer()
 
 	// test
 	err := server.ListenAndServe()

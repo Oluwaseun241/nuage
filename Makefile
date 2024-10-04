@@ -1,14 +1,11 @@
 # Build the application
-all: build
+run: build
+	@./bin/nuage
 
 build:
 	@echo "Building..."
 	
-	@go build -o main cmd/api/main.go
-
-# Run the application
-run:
-	@go run cmd/api/main.go
+	@go build -o bin/nuage cmd/api/main.go
 
 # Test the application
 test:
@@ -18,7 +15,7 @@ test:
 # Clean the binary
 clean:
 	@echo "Cleaning..."
-	@rm -f main
+	@rm -f ./bin/nuage
 
 # Live Reload
 watch:
