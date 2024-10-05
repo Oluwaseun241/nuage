@@ -7,10 +7,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (s *Server) createUser(c echo.Context) error {
+func (repo *Server) createUser(c echo.Context) error {
 
 	var req struct {
-		Email    string `json:"name"`
+		Email    string `json:"email"`
 		FullName string `json:"fullname"`
 		Password string `json:"password"`
 	}
@@ -20,12 +20,20 @@ func (s *Server) createUser(c echo.Context) error {
 	}
 
 	db := &repositories.InMemoryUserRepository{}
-	newUser, err := db.CreateUser(req.Email, req.Password, req.Password)
 
+	if req.Email == "" || req.Password == "" || req.FullName == "" {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": "missing required fields"})
+	}
+
+	newUser, err := db.CreateUser(req.Email, req.Password, req.Password)
 	if err != nil {
+		if err == repositories.ErrEmailExist {
+			return c.JSON(http.StatusConflict, echo.Map{"error": "user already exists"})
+		}
 		return c.JSON(http.StatusInternalServerError, echo.Map{"error": "failed to create user"})
 	}
 
+	// success response
 	resp := echo.Map{
 		"status":  true,
 		"message": "user created sucessfully",
